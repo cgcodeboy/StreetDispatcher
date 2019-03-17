@@ -1,7 +1,5 @@
 /*
-* Description:
-* This file is used to read the txt files and transform the data into Object
-* like road, car and cross. And it's also used to write answer.
+* Description: This file is used to read the txt files and transform the 	*			   data into Object like road, car and cross. And it's also used *			   to write answer.
 */
 
 #ifndef FILE_HANDLE_H

@@ -1,11 +1,11 @@
 /*
-* Description:
-* This head file is for road, the road need id,length,max speed,channel
-* num,start cross id,end cross id, and whether it's duplex road.
+* Description: This head file is for road, the road need id,length,max 	*			   speed,channel num,start cross id,end cross id, and whether	*			   it's duplex road.
 */
+
 #ifndef ROAD_H
 #define ROAD_H
 
+class Cross;
 
 class Road{
 private:
@@ -16,6 +16,9 @@ private:
 	int _startId;
 	int _endId;
 	bool _duplex;
+	
+	Cross* _startCross;
+	Cross* _endCross;
 
 public:
 	Road(){}
@@ -23,6 +26,7 @@ public:
 
 	void init();
 
+	/*
 	void setId(int id);
 	void setLength(int length);
 	void setMaxSpeed(int max_speed);
@@ -30,6 +34,7 @@ public:
 	void setStartCrossId(int start_id);
 	void setEndCrossId(int end_id);
 	void setIsDuplex(bool is_duplex);
+	*/
 
 	const int getId();
 	const int getLength();
@@ -38,6 +43,9 @@ public:
 	const int getStartCrossId();
 	const int getEndCrossId();
 	const bool getIsDuplex();
+	
+	void setStartCross(Cross* cross);
+	void setEndCross(Cross* cross);
 };
 
 

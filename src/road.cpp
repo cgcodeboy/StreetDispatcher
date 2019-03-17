@@ -1,4 +1,5 @@
 #include "road.h"
+#include "cross.h"
 
 Road::Road(int id,int length,int max_speed,int channel_num,int start_id,int end_id,bool is_duplex):
 _id(id),_length(length),_maxSpeed(max_speed),_channelNum(channel_num),_startId(start_id),_endId(end_id),_duplex(is_duplex)
@@ -11,7 +12,7 @@ void Road::init()
 
 }
 
-
+/*
 void Road::setId(int id)
 {
 	this->_id = id;
@@ -46,6 +47,7 @@ void Road::setIsDuplex(bool is_duplex)
 {
 	this->_duplex = is_duplex;
 }
+*/
 
 const int Road::getId()
 {
@@ -80,5 +82,15 @@ const int Road::getEndCrossId()
 const bool Road::getIsDuplex()
 {
 	return this->_duplex;
+}
+
+void Road::setStartCross(Cross* cross)
+{
+	_startCross = cross;
+}
+
+void Road::setEndCross(Cross* cross)
+{
+	_endCross = cross;
 }
 
