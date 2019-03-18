@@ -50,6 +50,11 @@ public:
 	void setRightRoad(Road* road);
 	
 	void insertStartCar(Car* car);
+	
+	int getHorizontalCarSize();
+	int getVerticalCarSize();
+	
+	void move();
 };
 
 

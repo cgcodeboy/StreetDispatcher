@@ -5,6 +5,10 @@
 #ifndef ROAD_H
 #define ROAD_H
 
+#include <vector>
+
+#include "channel.h"
+
 class Cross;
 
 class Road{
@@ -17,8 +21,14 @@ private:
 	int _endId;
 	bool _duplex;
 	
+	int _startVecIndex;
+	int _endVecIndex;
+	
 	Cross* _startCross;
 	Cross* _endCross;
+	
+	vector<Channel*>* _endChannelVec;
+	vector<Channel*>* _startChannelVec;
 
 public:
 	Road(){}
@@ -46,6 +56,11 @@ public:
 	
 	void setStartCross(Cross* cross);
 	void setEndCross(Cross* cross);
+	
+	void move(Cross* cross);
+	
+	Car* getFrontCar(Cross* pass_cross);
+	bool pushCar(Car* car,Cross* pass_cross);
 };
 
 

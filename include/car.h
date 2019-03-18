@@ -5,6 +5,12 @@
 #ifndef CAR_H
 #define CAR_H
 
+#include <list>
+
+using namespace std;
+
+class Road;
+
 class Car{
 private:
 	int _id;
@@ -12,6 +18,11 @@ private:
 	int _endId;
 	int _maxSpeed;
 	unsigned int _startTime;
+	int _curSpeed;
+	Road* _curRoad;
+	int _curDistance;
+	
+	list<int>* _roadNumList;
 	
 public:
 	Car(){}
@@ -19,17 +30,28 @@ public:
 
 	void init();
 
+	/*
 	void setId(int id);
 	void setStartCrossId(int start_id);
 	void setEndCrossId(int end_id);
 	void setMaxSpeed(int max_speed);
 	void setStartTime(unsigned int start_time);
+	*/
 
 	const int getId();
 	const int getStartCrossId();
 	const int getEndCrossId();
 	const int getMaxSpeed();
 	const unsigned int getStartTime();
+	
+	void setCurrentSpeed(int speed);
+	int getCurrentSpeed();
+	void setCurrentRoad(Road* road);
+	
+	const list<int>* getRoute();
+	
+	void setLastDistance(int distance);
+	int getLastDistance();
 };
 
 

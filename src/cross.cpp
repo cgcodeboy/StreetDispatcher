@@ -89,8 +89,59 @@ void Cross::setRightRoad(Road* road)
 	_rightRoad = road;
 }
 
+// Brief: This function is used to put all the car which is planned to start from this cross
+//		  into it's carport
 void Cross::insertStartCar(Car* car)
 {
 	_carport->enterCarport(car);
+}
+
+// Brief: This function is used to diapatch all the cars which will pass through this cross
+void Cross::move()
+{
+	//Step_1: get the cars which want to pass through this cross, so that the car in
+	//		  the road can move front, so there will be blank position for other cars
+	//		  which are pop out in other cross
+	Car* upCar = _upRoad->getFrontCar(this);
+	Car* downCar = _downRoad->getFrontCar(this);
+	Car* leftCar = _leftRoad->getFrontCar(this);
+	Car* rightCar = _rightRoad->getFrontCar(this);
+	
+	//if some car's distination is this cross, just enter the carport
+	if(upCar->getEndCrossId() == _id)
+		_carport->arriveCarport(upCar);
+	if(downCar->getEndCrossId() == _id)
+		_carport->arriveCarport(downCar);
+	if(leftCar->getEndCrossId() == _id)
+		_carport->arriveCarport(leftCar);
+	if(rightCar->getEndCrossId() == _id)
+		_carport->arriveCarport(rightCar);
+	
+	//Step_2: move the car in every road
+	if(_leftRoad)
+		_leftRoad->move(this);
+	if(_rightRoad)
+		_rightRoad->move(this);
+	if(_upRoad)
+		_upRoad->move(this);
+	if(_downRoad)
+		_downRoad->move(this);
+		
+	//Step_3: let the car poped out enter their next road in orders
+	//if(upCar->get
+}
+
+// Brief: This function will get the size of cars in left_right orientation
+int Cross::getHorizontalCarSize()
+{
+	// wait to implement
+	return 0;
+}
+
+// Brief: This function will get the size of cars in up_down orientation
+int Cross::getVerticalCarSize()
+{
+	// wait to implement
+	return 0;
 }
 

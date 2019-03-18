@@ -2,14 +2,26 @@
 #include "cross.h"
 
 Road::Road(int id,int length,int max_speed,int channel_num,int start_id,int end_id,bool is_duplex):
-_id(id),_length(length),_maxSpeed(max_speed),_channelNum(channel_num),_startId(start_id),_endId(end_id),_duplex(is_duplex)
+_id(id),_length(length),_maxSpeed(max_speed),_channelNum(channel_num),_startId(start_id),_endId(end_id),_duplex(is_duplex),_startVecIndex(0),_endVecIndex(0)
 {
 
 }
 
 void Road::init()
 {
-
+	_endChannelVec = new vector<Channel*>;
+	for(int i = 0; i< _channelNum;i++)
+	{
+		_endChannelVec->push_back(new Channel(this));
+	}
+	if(_duplex)
+	{
+		_startChannelVec = new vector<Channel*>;
+		for(int i = 0; i< _channelNum;i++)
+		{
+			_startChannelVec->push_back(new Channel(this));
+		}
+	}
 }
 
 /*
@@ -92,5 +104,105 @@ void Road::setStartCross(Cross* cross)
 void Road::setEndCross(Cross* cross)
 {
 	_endCross = cross;
+}
+
+// Brief: This function is used to let all the car move toward
+void Road::move(Cross* cross)
+{
+	if(cross == _startCross)
+	{
+		
+	}
+}
+
+// Brief: This function will return the car that will pass through the cross
+Car* Road::getFrontCar(Cross* pass_cross)
+{
+	if(pass_cross == _startCross)
+	{
+		// if we can get car from channel start index to the end of channels, just
+		// return the car
+		int cur = _startVecIndex%_channelNum;
+		for(unsigned int i = cur; i < _startChannelVec->size(); i++)
+		{
+			Car* car = _startChannelVec->at(i)->popPassCar();
+			if(car){
+				_startVecIndex++;
+				return car;
+			}
+			else{
+				_startVecIndex++;
+			}
+		}
+		// else we can try to get car from the begin of the channels to index-1,
+		// if we can get car, just return the car
+		for(unsigned int i = 0; i < cur; i++)
+		{
+			Car* car = _startChannelVec->at(i)->popPassCar();
+			if(car){
+				_startVecIndex++;
+				return car;
+			}
+			else{
+				_startVecIndex++;
+			}
+		}
+		// now, it presents that there is no car will pass the cross.
+		return nullptr;
+	}
+	else
+	{
+		// if we can get car from channel start index to the end of channels, just
+		// return the car
+		int cur = _endVecIndex%_channelNum;
+		for(int i = cur; i < _endChannelVec->size(); i++)
+		{
+			Car* car = _endChannelVec->at(i)->popPassCar();
+			if(car){
+				_endVecIndex++;
+				return car;
+			}
+			else{
+				_endVecIndex++;
+			}
+		}
+		// else we can try to get car from the begin of the channels to index-1,
+		// if we can get car, just return the car
+		for(int i = 0; i < cur; i++)
+		{
+			Car* car = _endChannelVec->at(i)->popPassCar();
+			if(car){
+				_endVecIndex++;
+				return car;
+			}
+			else{
+				_endVecIndex++;
+			}
+		}
+		// now, it presents that there is no car will pass the cross.
+		return nullptr;
+	}	
+}
+
+bool Road::pushCar(Car* car,Cross* pass_cross)
+{
+	if(pass_cross == _startCross)
+	{
+		for(int i = 0;i < _endChannelVec->size(); i++)
+		{
+			if(_endChannelVec->at(i)->pushPassCar(car))
+				return true;
+		}
+		return false;
+	}
+	else
+	{
+		for(int i = 0;i < _startChannelVec->size(); i++)
+		{
+			if(_startChannelVec->at(i)->pushPassCar(car))
+				return true;
+		}
+		return false;
+	}
 }
 
