@@ -6,6 +6,7 @@
 #define CROSS_H
 
 #include "carport.h"
+#include "roadreceiver.h"
 
 class Road;
 class Car;
@@ -23,6 +24,11 @@ private:
 	Road* _downRoad;
 	Road* _leftRoad;
 	Road* _rightRoad;
+	
+	Car* _upCar;
+	Car* _downCar;
+	Car* _leftCar;
+	Car* _rightCar;
 	
 public:
 	Cross(){}
@@ -48,6 +54,16 @@ public:
 	void setDownRoad(Road* road);
 	void setLeftRoad(Road* road);
 	void setRightRoad(Road* road);
+	
+	Road* getUpRoad();
+	Road* getDownRoad();
+	Road* getLeftRoad();
+	Road* getRightRoad();
+	
+	Cross* getUpCross();
+	Cross* getDownCross();
+	Cross* getLeftCross();
+	Cross* getRightCross();
 	
 	void insertStartCar(Car* car);
 	

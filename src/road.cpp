@@ -106,12 +106,31 @@ void Road::setEndCross(Cross* cross)
 	_endCross = cross;
 }
 
+Cross* Road::getStartCross()
+{
+	return _startCross;
+}
+
+Cross* Road::getEndCross()
+{
+	return _endCross;
+}
+
 // Brief: This function is used to let all the car move toward
 void Road::move(Cross* cross)
 {
 	if(cross == _startCross)
 	{
-		
+		if(_duplex)
+		{
+			for(Channel* channel: *_startChannelVec)
+				channel->move();
+		}
+	}
+	else
+	{
+		for(Channel* channel: *_endChannelVec)
+				channel->move();
 	}
 }
 
@@ -122,7 +141,7 @@ Car* Road::getFrontCar(Cross* pass_cross)
 	{
 		// if we can get car from channel start index to the end of channels, just
 		// return the car
-		int cur = _startVecIndex%_channelNum;
+		unsigned int cur = _startVecIndex%_channelNum;
 		for(unsigned int i = cur; i < _startChannelVec->size(); i++)
 		{
 			Car* car = _startChannelVec->at(i)->popPassCar();
@@ -154,8 +173,8 @@ Car* Road::getFrontCar(Cross* pass_cross)
 	{
 		// if we can get car from channel start index to the end of channels, just
 		// return the car
-		int cur = _endVecIndex%_channelNum;
-		for(int i = cur; i < _endChannelVec->size(); i++)
+		unsigned int cur = _endVecIndex%_channelNum;
+		for(unsigned int i = cur; i < _endChannelVec->size(); i++)
 		{
 			Car* car = _endChannelVec->at(i)->popPassCar();
 			if(car){
@@ -168,7 +187,7 @@ Car* Road::getFrontCar(Cross* pass_cross)
 		}
 		// else we can try to get car from the begin of the channels to index-1,
 		// if we can get car, just return the car
-		for(int i = 0; i < cur; i++)
+		for(unsigned int i = 0; i < cur; i++)
 		{
 			Car* car = _endChannelVec->at(i)->popPassCar();
 			if(car){
@@ -184,11 +203,13 @@ Car* Road::getFrontCar(Cross* pass_cross)
 	}	
 }
 
+//Brief: This function will push the car which will pass through this road
 bool Road::pushCar(Car* car,Cross* pass_cross)
 {
+	//error!! it's duplex
 	if(pass_cross == _startCross)
 	{
-		for(int i = 0;i < _endChannelVec->size(); i++)
+		for(unsigned int i = 0;i < _endChannelVec->size(); i++)
 		{
 			if(_endChannelVec->at(i)->pushPassCar(car))
 				return true;
@@ -197,7 +218,7 @@ bool Road::pushCar(Car* car,Cross* pass_cross)
 	}
 	else
 	{
-		for(int i = 0;i < _startChannelVec->size(); i++)
+		for(unsigned int i = 0;i < _startChannelVec->size(); i++)
 		{
 			if(_startChannelVec->at(i)->pushPassCar(car))
 				return true;

@@ -6,6 +6,7 @@
 #define CAR_H
 
 #include <list>
+#include <iostream>
 
 using namespace std;
 
@@ -52,6 +53,8 @@ public:
 	
 	void setLastDistance(int distance);
 	int getLastDistance();
+	
+	int getNextRoadId(int current_road_id);
 };
 
 

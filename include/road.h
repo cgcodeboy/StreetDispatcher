@@ -56,6 +56,8 @@ public:
 	
 	void setStartCross(Cross* cross);
 	void setEndCross(Cross* cross);
+	Cross* getStartCross();
+	Cross* getEndCross();
 	
 	void move(Cross* cross);
 	

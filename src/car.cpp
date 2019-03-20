@@ -97,3 +97,12 @@ int Car::getLastDistance()
 	return _curDistance;
 }
 
+int Car::getNextRoadId(int current_road_id)
+{
+	for(list<int>::iterator it = _roadNumList->begin(); it != _roadNumList->end(); it++)
+	{
+		if(current_road_id == *it)
+			return *it;			
+	}
+	return NULL;
+}
