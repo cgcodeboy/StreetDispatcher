@@ -1,5 +1,7 @@
 #include "dispatcher.h"
 
+int TIME = 0;
+
 /*
 * Brief: This function is used to set the car, road and cross information in the scene
 *		 After setter, it will call the sort scene relation function inside to set the relation

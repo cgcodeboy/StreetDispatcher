@@ -23,9 +23,11 @@ public:
 	Channel(Road* road);
 	
 	void move();
+	bool hasCarPassCross();
 	
 	Car* popPassCar();
 	bool pushPassCar(Car* car);
+	bool canPushCar();
 };
 
 

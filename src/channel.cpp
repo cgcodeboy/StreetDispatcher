@@ -10,12 +10,63 @@ _belongRoad(road)
 // Brief: move the car in this channel
 void Channel::move()
 {
-	
+	if(_carVec->empty())
+		return;
+	Car* car = _carVec->front();
+	int curDis = car->getLastDistance();
+	int curSpeed = car->getCurrentSpeed();
+	car->setLastDistance(curDis - car->getCurrentSpeed());
+	for(vector<Car*>::iterator it = _carVec->begin()+1; it != _carVec->end(); it++)
+	{
+		car = *it;
+		if(car->getLastDistance() - curDis < car->getCurrentSpeed())
+		{
+			int temp = car->getLastDistance();			
+			car->setLastDistance(car->getLastDistance() - curDis);
+			curDis = temp;
+			temp = car->getCurrentSpeed();
+			car->setCurrentSpeed(curSpeed);	
+			curSpeed = temp;
+		}
+		else
+		{
+			int temp  = car->getLastDistance();
+			car->setLastDistance(car->getLastDistance() - car->getCurrentSpeed());
+			curDis = temp;
+			curSpeed = car->getCurrentSpeed();
+		}
+	}
+}
+
+// Brief: This function will return whether this channel can push any car
+bool Channel::canPushCar()
+{
+	if(_carVec->empty())
+		return true;
+	Car* car = _carVec->back();
+	if(car->getLastDistance() == _belongRoad->getLength()-1)
+		return false;
+	return true;
+}
+
+// Brief: This function will return whether this channel has car will arrive the end
+bool Channel::hasCarPassCross()
+{
+	if(_carVec->empty())
+		return false;
+	Car* car = _carVec->front();
+	if(car->getLastDistance() < car->getCurrentSpeed())
+	{
+		return true;
+	}
+	return false;
 }
 
 // Brief: This function will pop out a car if there is a car will pass through the cross
 Car* Channel::popPassCar()
 {
+	if(_carVec->empty())
+		return nullptr;
 	Car* car = _carVec->front();
 	if(car->getLastDistance() < car->getCurrentSpeed())
 	{

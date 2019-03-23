@@ -23,6 +23,7 @@ public:
 	RoadReceiver(Road* in_road, Cross* out_cross);
 	
 	void receiveCar();
+	bool canReceiveCar();
 	
 	void setStraightCar(Car** straight_car);
 	void setLeftTurnCar(Car** left_turn_car);

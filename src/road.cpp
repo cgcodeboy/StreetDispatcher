@@ -134,6 +134,28 @@ void Road::move(Cross* cross)
 	}
 }
 
+// Brief: This function will return whether this road has car can pass through this cross
+bool Road::hasCarPassCross(Cross* cross)
+{
+	if(cross == _startCross)
+	{
+		if(_duplex)
+		{
+			for(Channel* channel: *_startChannelVec)
+				if(channel->hasCarPassCross())
+					return true;
+			return false;
+		}
+	}
+	else
+	{
+		for(Channel* channel: *_endChannelVec)
+			if(channel->hasCarPassCross())
+				return true;
+		return false;
+	}
+}
+
 // Brief: This function will return the car that will pass through the cross
 Car* Road::getFrontCar(Cross* pass_cross)
 {
@@ -221,6 +243,29 @@ bool Road::pushCar(Car* car,Cross* pass_cross)
 		for(unsigned int i = 0;i < _startChannelVec->size(); i++)
 		{
 			if(_startChannelVec->at(i)->pushPassCar(car))
+				return true;
+		}
+		return false;
+	}
+}
+
+// Brief: This function will return whether there are empty in the end of this road
+bool Road::canPushCar(Cross* cross)
+{
+	if(cross == _startCross)
+	{
+		for(unsigned int i = 0;i < _endChannelVec->size(); i++)
+		{
+			if(_endChannelVec->at(i)->canPushCar())
+				return true;
+		}
+		return false;
+	}
+	else
+	{
+		for(unsigned int i = 0;i < _startChannelVec->size(); i++)
+		{
+			if(_startChannelVec->at(i)->canPushCar())
 				return true;
 		}
 		return false;

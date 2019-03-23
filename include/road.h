@@ -61,6 +61,8 @@ public:
 	
 	void move(Cross* cross);
 	
+	bool hasCarPassCross(Cross* cross);
+	bool canPushCar(Cross* cross);
 	Car* getFrontCar(Cross* pass_cross);
 	bool pushCar(Car* car,Cross* pass_cross);
 };

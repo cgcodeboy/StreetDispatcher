@@ -18,7 +18,8 @@ private:
 	int _startId;
 	int _endId;
 	int _maxSpeed;
-	unsigned int _startTime;
+	unsigned int _planTime;
+	unsigned int _realTime;
 	int _curSpeed;
 	Road* _curRoad;
 	int _curDistance;
@@ -43,13 +44,16 @@ public:
 	const int getStartCrossId();
 	const int getEndCrossId();
 	const int getMaxSpeed();
-	const unsigned int getStartTime();
+	const unsigned int getPlanTime();
+	
+	void setRealStartTime(unsigned int time);
 	
 	void setCurrentSpeed(int speed);
 	int getCurrentSpeed();
 	void setCurrentRoad(Road* road);
 	
 	const list<int>* getRoute();
+	void setRoute(list<int>* route_list);
 	
 	void setLastDistance(int distance);
 	int getLastDistance();

@@ -5,11 +5,14 @@
 #ifndef CROSS_H
 #define CROSS_H
 
+#include <queue>
+
 #include "carport.h"
 #include "roadreceiver.h"
 
 class Road;
 class Car;
+class Dispatcher;
 
 class Cross{
 private:
@@ -25,10 +28,16 @@ private:
 	Road* _leftRoad;
 	Road* _rightRoad;
 	
+
 	Car* _upCar;
 	Car* _downCar;
 	Car* _leftCar;
 	Car* _rightCar;
+
+	queue<Car*>* _upCarQueue;
+	queue<Car*>* _downCarQueue;
+	queue<Car*>* _rightCarQueue;
+	queue<Car*>* _leftCarQueue;
 	
 public:
 	Cross(){}

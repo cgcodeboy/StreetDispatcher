@@ -9,6 +9,11 @@ _road(in_road),_cross(out_cross)
 	*_rightCar = nullptr;
 }
 
+bool RoadReceiver::canReceiveCar()
+{
+	return _road->canPushCar(_cross);
+}
+
 // Brief: this function is used to insert the three car into the road in order
 void RoadReceiver::receiveCar()
 {

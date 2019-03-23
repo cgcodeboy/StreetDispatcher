@@ -10,6 +10,8 @@
 
 #include "filehandle.h"
 
+extern int TIME;
+
 class Dispatcher{
 private:
 	vector<Car> *_carVec;

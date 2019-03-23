@@ -23,7 +23,7 @@ public:
 	
 	void enterCarport(Car* init_car);
 	void arriveCarport(Car* arrive_car);
-	Car* leaveCarport(unsigned int current_time);
+	Car* getCarToRoad(unsigned int current_time,int road_id);
 };
 
 

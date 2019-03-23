@@ -22,7 +22,7 @@ void Carport::arriveCarport(Car* arrive_car)
 // Brief: This function is used to get a car which is planned to start at the given time and
 //		  has the fastest speed.
 // Note: This function can be optimized use other method.
-Car* Carport::leaveCarport(unsigned int current_time)
+Car* Carport::getCarToRoad(unsigned int current_time,int road_id)
 {
 	if(_waitCarVec->empty())
 		return nullptr;
@@ -31,7 +31,7 @@ Car* Carport::leaveCarport(unsigned int current_time)
 	vector<Car*> *currentVec = new vector<Car*>;
 	for(vector<Car*>::iterator it = _waitCarVec->begin(); it != _waitCarVec->end(); it++)
 	{
-		if((*it)->getStartTime() == current_time)
+		if((*it)->getPlanTime() <= current_time && (*it)->getNextRoadId(0) == road_id)
 		{
 			currentVec->push_back(*it);
 			it = _waitCarVec->erase(it);
@@ -50,6 +50,7 @@ Car* Carport::leaveCarport(unsigned int current_time)
 	}
 	
 	Car* returnCar = *fastSpeed_it;
+	returnCar->setRealStartTime(current_time);
 	fastSpeed_it = currentVec->erase(fastSpeed_it);
 	return returnCar;
 }
