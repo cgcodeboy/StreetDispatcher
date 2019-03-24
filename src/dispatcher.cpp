@@ -1,7 +1,5 @@
 #include "dispatcher.h"
 
-int TIME = 0;
-
 /*
 * Brief: This function is used to set the car, road and cross information in the scene
 *		 After setter, it will call the sort scene relation function inside to set the relation
@@ -29,6 +27,17 @@ void Dispatcher::trainScene()
 void Dispatcher::dispatch()
 {
 	cout<<"Guys, let's dispatch it"<<endl;
+	// set every car's route
+	
+	
+	//create the thread and run
+	int time = 0;
+	for(int i = 0;i< _crossVec->size(); i++)
+	{
+		Cross cross = _crossVec->at(i);
+		CrossThread* crossTh = new CrossThread(&cross);
+		crossTh->run(&time);
+	}
 }
 
 /*

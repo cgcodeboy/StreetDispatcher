@@ -9,8 +9,7 @@
 #define DISPATCHER_H
 
 #include "filehandle.h"
-
-extern int TIME;
+#include "crossthread.h"
 
 class Dispatcher{
 private:

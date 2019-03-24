@@ -1,7 +1,6 @@
 #include "cross.h"
 #include "road.h"
 #include "car.h"
-#include "dispatcher.h"
 
 Cross::Cross(int id, int up_id, int right_id, int down_id, int left_id):
 _id(id),_upId(up_id),_downId(down_id),_leftId(left_id),_rightId(right_id)
@@ -107,7 +106,7 @@ void Cross::insertStartCar(Car* car)
 }
 
 // Brief: This function is used to diapatch all the cars which will pass through this cross
-void Cross::move()
+void Cross::move(int time)
 {
 	//Step_1: get the cars which want to pass through this cross, so that the car in
 	//		  the road can move front, so there will be blank position for other cars
@@ -267,7 +266,7 @@ void Cross::move()
 			}
 			if(!_rightCar && !_downCar && _upCar)
 			{
-				Car* car = _carport->getCarToRoad(TIME,_leftRoad->getId());
+				Car* car = _carport->getCarToRoad(time,_leftRoad->getId());
 				if(car)
 				{
 					leftReceiver->setStraightCar(&car);
@@ -291,7 +290,7 @@ void Cross::move()
 			}
 			if(!_leftCar && !_downCar && _upCar)
 			{
-				Car* car = _carport->getCarToRoad(TIME,_rightRoad->getId());
+				Car* car = _carport->getCarToRoad(time,_rightRoad->getId());
 				if(car)
 				{
 					rightReceiver->setStraightCar(&car);
@@ -315,7 +314,7 @@ void Cross::move()
 			}
 			if(!_leftCar && !_downCar && _rightCar)
 			{
-				Car* car = _carport->getCarToRoad(TIME,_upRoad->getId());
+				Car* car = _carport->getCarToRoad(time,_upRoad->getId());
 				if(car)
 				{
 					upReceiver->setStraightCar(&car);
@@ -339,7 +338,7 @@ void Cross::move()
 			}
 			if(!_leftCar && !_upCar && _rightCar)
 			{
-				Car* car = _carport->getCarToRoad(TIME,_downRoad->getId());
+				Car* car = _carport->getCarToRoad(time,_downRoad->getId());
 				if(car)
 				{
 					downReceiver->setStraightCar(&car);

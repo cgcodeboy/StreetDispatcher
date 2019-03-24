@@ -12,7 +12,6 @@
 
 class Road;
 class Car;
-class Dispatcher;
 
 class Cross{
 private:
@@ -79,7 +78,7 @@ public:
 	int getHorizontalCarSize();
 	int getVerticalCarSize();
 	
-	void move();
+	void move(int time);
 };
 
 
