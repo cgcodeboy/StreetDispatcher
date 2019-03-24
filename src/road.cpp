@@ -4,7 +4,9 @@
 Road::Road(int id,int length,int max_speed,int channel_num,int start_id,int end_id,bool is_duplex):
 _id(id),_length(length),_maxSpeed(max_speed),_channelNum(channel_num),_startId(start_id),_endId(end_id),_duplex(is_duplex),_startVecIndex(0),_endVecIndex(0)
 {
-
+	_startCross = nullptr;
+	_endCross = nullptr;
+	init();
 }
 
 void Road::init()
@@ -99,11 +101,13 @@ const bool Road::getIsDuplex()
 void Road::setStartCross(Cross* cross)
 {
 	_startCross = cross;
+	//cout<<"road "<<_id<<" start at"<<cross->getId()<<endl;
 }
 
 void Road::setEndCross(Cross* cross)
 {
 	_endCross = cross;
+	//cout<<"road "<<_id<<" end at"<<cross->getId()<<endl;
 }
 
 Cross* Road::getStartCross()
@@ -130,7 +134,7 @@ void Road::move(Cross* cross)
 	else
 	{
 		for(Channel* channel: *_endChannelVec)
-				channel->move();
+			channel->move();
 	}
 }
 
@@ -142,8 +146,10 @@ bool Road::hasCarPassCross(Cross* cross)
 		if(_duplex)
 		{
 			for(Channel* channel: *_startChannelVec)
+			{
 				if(channel->hasCarPassCross())
 					return true;
+			}
 			return false;
 		}
 	}

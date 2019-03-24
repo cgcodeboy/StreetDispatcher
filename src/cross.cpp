@@ -20,6 +20,11 @@ void Cross::init()
 	_downCarQueue = nullptr;
 	_leftCarQueue = nullptr;
 	_rightCarQueue = nullptr;
+	
+	_upCar = nullptr;
+	_downCar = nullptr;
+	_leftCar = nullptr;
+	_rightCar = nullptr;
 }
 
 /*
@@ -49,27 +54,27 @@ void Cross::setRightRoadId(int right_id)
 }
 */
 	
-const int Cross::getId()
+int Cross::getId()
 {
 	return this->_id;
 }
 
-const int Cross::getUpRoadId()
+int Cross::getUpRoadId()
 {
 	return this->_upId;
 }
 
-const int Cross::getDownRoadId()
+int Cross::getDownRoadId()
 {
 	return this->_downId;
 }
 
-const int Cross::getLeftRoadId()
+int Cross::getLeftRoadId()
 {
 	return this->_leftId;
 }
 
-const int Cross::getRightRoadId()
+int Cross::getRightRoadId()
 {
 	return this->_rightId;
 }
@@ -108,6 +113,7 @@ void Cross::insertStartCar(Car* car)
 // Brief: This function is used to diapatch all the cars which will pass through this cross
 void Cross::move(int time)
 {
+	cout<<"running..."<<_id<<endl;
 	//Step_1: get the cars which want to pass through this cross, so that the car in
 	//		  the road can move front, so there will be blank position for other cars
 	//		  which are pop out in other cross
@@ -217,18 +223,21 @@ void Cross::move(int time)
 	}
 	
 	//Step_3: receive all the car and let the road reveiver run
+	
+	bool condition = false;
 	do{
+		cout<<"receiving..."<<endl;
 		if(!_upCar)
 		{
-			if(!_upCarQueue->empty())
-			{
+			if(_upCarQueue && !_upCarQueue->empty())
+			{				
 				_upCar = _upCarQueue->front();
 				_upCarQueue->pop();
 			}
 		}
 		if(!_downCar)
 		{
-			if(!_downCarQueue->empty())
+			if(_downCarQueue && !_downCarQueue->empty())
 			{
 				_downCar = _downCarQueue->front();
 				_downCarQueue->pop();
@@ -236,7 +245,7 @@ void Cross::move(int time)
 		}
 		if(!_leftCar)
 		{
-			if(!_leftCarQueue->empty())
+			if(_leftCarQueue && !_leftCarQueue->empty())
 			{
 				_leftCar = _leftCarQueue->front();
 				_leftCarQueue->pop();
@@ -244,13 +253,13 @@ void Cross::move(int time)
 		}
 		if(!_rightCar)
 		{
-			if(!_rightCarQueue->empty())
+			if(_rightCarQueue && !_rightCarQueue->empty())
 			{
 				_rightCar = _rightCarQueue->front();
 				_rightCarQueue->pop();
 			}
 		}
-		if(leftReceiver&&leftReceiver->canReceiveCar())
+		if(leftReceiver && leftReceiver->canReceiveCar())
 		{
 			if(_rightCar&&_rightCar->getNextRoadId(_rightRoad->getId()) == _leftRoad->getId())
 			{
@@ -264,7 +273,7 @@ void Cross::move(int time)
 			{
 				leftReceiver->setRightTurnCar(&_upCar);
 			}
-			if(!_rightCar && !_downCar && _upCar)
+			if(!_rightCar && !_downCar && !_upCar)
 			{
 				Car* car = _carport->getCarToRoad(time,_leftRoad->getId());
 				if(car)
@@ -288,7 +297,7 @@ void Cross::move(int time)
 			{
 				rightReceiver->setRightTurnCar(&_downCar);
 			}
-			if(!_leftCar && !_downCar && _upCar)
+			if(!_leftCar && !_downCar && !_upCar)
 			{
 				Car* car = _carport->getCarToRoad(time,_rightRoad->getId());
 				if(car)
@@ -312,7 +321,7 @@ void Cross::move(int time)
 			{
 				upReceiver->setRightTurnCar(&_rightCar);
 			}
-			if(!_leftCar && !_downCar && _rightCar)
+			if(!_leftCar && !_downCar && !_rightCar)
 			{
 				Car* car = _carport->getCarToRoad(time,_upRoad->getId());
 				if(car)
@@ -336,7 +345,7 @@ void Cross::move(int time)
 			{
 				downReceiver->setRightTurnCar(&_leftCar);
 			}
-			if(!_leftCar && !_upCar && _rightCar)
+			if(!_leftCar && !_upCar && !_rightCar)
 			{
 				Car* car = _carport->getCarToRoad(time,_downRoad->getId());
 				if(car)
@@ -346,9 +355,36 @@ void Cross::move(int time)
 			}
 			downReceiver->receiveCar();
 		}
-		
-	}while(!leftReceiver->canReceiveCar()&&!rightReceiver->canReceiveCar()&&!\
-			upReceiver->canReceiveCar()&&!downReceiver->canReceiveCar());
+		if(leftReceiver)
+		{
+			if(leftReceiver->canReceiveCar())
+			{
+				condition = true;
+			}
+		}
+		if(rightReceiver)
+		{
+			if(rightReceiver->canReceiveCar())
+			{
+				condition = true;
+			}
+		}
+		if(upReceiver)
+		{
+			if(upReceiver->canReceiveCar())
+			{
+				condition = true;
+			}
+		}
+		if(downReceiver)
+		{
+			if(downReceiver->canReceiveCar())
+			{
+				condition = true;
+			}
+		}
+	}while(condition);
+	cout<<"mm"<<endl;
 }
 
 // Brief: This function will get the size of cars in left_right orientation

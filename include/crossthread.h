@@ -7,6 +7,7 @@
 #define CROSS_THREAD_H
 
 #include <pthread.h>
+#include <unistd.h>
 #include "cross.h"
 
 class CrossThread{
@@ -14,9 +15,9 @@ private:
 	Cross* _cross;
 	pthread_t _threadId;
 	int _time;
-	static void* startThreadFunction(void *thread);
+	static void* startThreadFunction(void* thread);
 public:
-	explicit CrossThread(Cross* cross);
+	CrossThread(Cross* cross);
 	
 	int run(void* thread_context);
 };

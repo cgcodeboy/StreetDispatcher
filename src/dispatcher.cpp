@@ -5,7 +5,7 @@
 *		 After setter, it will call the sort scene relation function inside to set the relation
 *		 between car and road
 */
-void Dispatcher::setStreetScene(vector<Car>* car_vector, vector<Road>* road_vector, vector<Cross>* cross_vector)
+void Dispatcher::setStreetScene(vector<Car*>* car_vector, vector<Road*>* road_vector, vector<Cross*>* cross_vector)
 {
 	this->_carVec = car_vector;
 	this->_roadVec = road_vector;
@@ -32,10 +32,9 @@ void Dispatcher::dispatch()
 	
 	//create the thread and run
 	int time = 0;
-	for(int i = 0;i< _crossVec->size(); i++)
+	for(int i = 0;i< 5; i++)
 	{
-		Cross cross = _crossVec->at(i);
-		CrossThread* crossTh = new CrossThread(&cross);
+		CrossThread* crossTh = new CrossThread(_crossVec->at(i));
 		crossTh->run(&time);
 	}
 }
@@ -46,17 +45,17 @@ void Dispatcher::dispatch()
 */
 void Dispatcher::sortSceneRelation()
 {
-	for(vector<Cross>::iterator crossIt = _crossVec->begin(); crossIt != _crossVec->end(); crossIt++)
-	{
-		Cross cross = *crossIt;
-		cross.init();
+	for(vector<Cross*>::iterator crossIt = _crossVec->begin(); crossIt != _crossVec->end(); crossIt++)
+	{		
+		Cross* cross = *crossIt;
+		cross->init();
 		
 		//insert all the car which are planned to start from this cross into this current cross
-		for(vector<Car>::iterator it = _carVec->begin(); it != _carVec->end(); it++)
+		for(vector<Car*>::iterator it = _carVec->begin(); it != _carVec->end(); it++)
 		{
-			if((*it).getStartCrossId() == cross.getId())
+			if((*it)->getStartCrossId() == cross->getId())
 			{
-				cross.insertStartCar(&(*it));
+				cross->insertStartCar(*it);
 			}
 		}
 	
@@ -64,58 +63,58 @@ void Dispatcher::sortSceneRelation()
 		* Judge whether the road is start from or end at this cross, if so, just set their
 		* relation between each other
 		*/
-		for(vector<Road>::iterator it = _roadVec->begin(); it != _roadVec->end(); it++)
+		for(vector<Road*>::iterator it = _roadVec->begin(); it != _roadVec->end(); it++)
 		{
 			//up road
-			if(cross.getUpRoadId() != -1 && cross.getUpRoadId() == (*it).getId())
+			if(cross->getUpRoadId() != -1 && cross->getUpRoadId() == (*it)->getId())
 			{
-				cross.setUpRoad(&(*it));
-				if((*it).getStartCrossId() == cross.getUpRoadId())
+				cross->setUpRoad(*it);
+				if((*it)->getStartCrossId() == cross->getId())
 				{
-					(*it).setStartCross(&cross);
+					(*it)->setStartCross(*crossIt);
 				}
 				else
 				{
-					(*it).setEndCross(&cross);
+					(*it)->setEndCross(*crossIt);
 				}
 			}
 			//down road
-			if(cross.getDownRoadId() != -1 && cross.getDownRoadId() == (*it).getId())
+			if(cross->getDownRoadId() != -1 && cross->getDownRoadId() == (*it)->getId())
 			{
-				cross.setDownRoad(&(*it));
-				if((*it).getStartCrossId() == cross.getDownRoadId())
+				cross->setDownRoad(*it);
+				if((*it)->getStartCrossId() == cross->getId())
 				{
-					(*it).setStartCross(&cross);
+					(*it)->setStartCross(*crossIt);
 				}
 				else
 				{
-					(*it).setEndCross(&cross);
+					(*it)->setEndCross(*crossIt);
 				}
 			}
 			//left road
-			if(cross.getLeftRoadId() != -1 && cross.getLeftRoadId() == (*it).getId())
+			if(cross->getLeftRoadId() != -1 && cross->getLeftRoadId() == (*it)->getId())
 			{
-				cross.setLeftRoad(&(*it));
-				if((*it).getStartCrossId() == cross.getLeftRoadId())
+				cross->setLeftRoad(*it);
+				if((*it)->getStartCrossId() == cross->getId())
 				{
-					(*it).setStartCross(&cross);
+					(*it)->setStartCross(*crossIt);
 				}
 				else
 				{
-					(*it).setEndCross(&cross);
+					(*it)->setEndCross(*crossIt);
 				}
 			}
 			//right road
-			if(cross.getRightRoadId() != -1 && cross.getRightRoadId() == (*it).getId())
+			if(cross->getRightRoadId() != -1 && cross->getRightRoadId() == (*it)->getId())
 			{
-				cross.setRightRoad(&(*it));
-				if((*it).getStartCrossId() == cross.getRightRoadId())
+				cross->setRightRoad(*it);
+				if((*it)->getStartCrossId() == cross->getId())
 				{
-					(*it).setStartCross(&cross);
+					(*it)->setStartCross(*crossIt);
 				}
 				else
 				{
-					(*it).setEndCross(&cross);
+					(*it)->setEndCross(*crossIt);
 				}
 			}
 		}

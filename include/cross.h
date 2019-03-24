@@ -52,11 +52,11 @@ public:
 	void setRightRoadId(int right_id);
 	*/
 	
-	const int getId();
-	const int getUpRoadId();
-	const int getDownRoadId();
-	const int getLeftRoadId();
-	const int getRightRoadId();
+	int getId();
+	int getUpRoadId();
+	int getDownRoadId();
+	int getLeftRoadId();
+	int getRightRoadId();
 	
 	void setUpRoad(Road* road);
 	void setDownRoad(Road* road);

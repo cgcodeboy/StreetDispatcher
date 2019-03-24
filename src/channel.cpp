@@ -11,7 +11,9 @@ _belongRoad(road)
 void Channel::move()
 {
 	if(_carVec->empty())
+	{
 		return;
+	}
 	Car* car = _carVec->front();
 	int curDis = car->getLastDistance();
 	int curSpeed = car->getCurrentSpeed();
@@ -53,7 +55,9 @@ bool Channel::canPushCar()
 bool Channel::hasCarPassCross()
 {
 	if(_carVec->empty())
+	{
 		return false;
+	}
 	Car* car = _carVec->front();
 	if(car->getLastDistance() < car->getCurrentSpeed())
 	{

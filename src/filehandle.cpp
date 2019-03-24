@@ -12,18 +12,18 @@ vector<string> split(const string& in, const string& delim) {
 // Brief: Construct function
 FileHandle::FileHandle()
 {
-	_carVec = new vector<Car>;
-	_roadVec = new vector<Road>;
-	_crossVec = new vector<Cross>;
+	_carVec = new vector<Car*>;
+	_roadVec = new vector<Road*>;
+	_crossVec = new vector<Cross*>;
 }
 
 // Brief: Construct function
 FileHandle::FileHandle(string car_file_path, string road_file_path, string cross_file_path,string answer_file_path):
 _carFilePath(car_file_path),_roadFilePath(road_file_path),_crossFilePath(cross_file_path),_answerFilePath(answer_file_path)
 {
-	_carVec = new vector<Car>;
-	_roadVec = new vector<Road>;
-	_crossVec = new vector<Cross>;
+	_carVec = new vector<Car*>;
+	_roadVec = new vector<Road*>;
+	_crossVec = new vector<Cross*>;
 }
 
 // Brief: This function is set the path of car file, road file and cross file
@@ -80,7 +80,7 @@ void FileHandle::transformCarData()
 		
 		vector<string> dataVec = split(line,",");
 		
-		Car car(stoi(dataVec.at(0)),stoi(dataVec.at(1)),stoi(dataVec.at(2)),stoi(dataVec.at(3)),stoi(dataVec.at(4)));
+		Car* car = new Car(stoi(dataVec.at(0)),stoi(dataVec.at(1)),stoi(dataVec.at(2)),stoi(dataVec.at(3)),stoi(dataVec.at(4)));
 		
 		try{
 			_carVec->push_back(car);
@@ -117,7 +117,7 @@ void FileHandle::transformRoadData()
 		
 		vector<string> dataVec = split(line,",");
 		
-		Road road(stoi(dataVec.at(0)),stoi(dataVec.at(1)),stoi(dataVec.at(2)),stoi(dataVec.at(3)),stoi(dataVec.at(4)),stoi(dataVec.at(5)),stoi(dataVec.at(6)));
+		Road* road = new Road(stoi(dataVec.at(0)),stoi(dataVec.at(1)),stoi(dataVec.at(2)),stoi(dataVec.at(3)),stoi(dataVec.at(4)),stoi(dataVec.at(5)),stoi(dataVec.at(6)));
 		
 		try{
 			_roadVec->push_back(road);
@@ -154,7 +154,7 @@ void FileHandle::transformCrossData()
 		
 		vector<string> dataVec = split(line,",");
 		
-		Cross cross(stoi(dataVec.at(0)),stoi(dataVec.at(1)),stoi(dataVec.at(2)),stoi(dataVec.at(3)),stoi(dataVec.at(4)));
+		Cross* cross = new Cross(stoi(dataVec.at(0)),stoi(dataVec.at(1)),stoi(dataVec.at(2)),stoi(dataVec.at(3)),stoi(dataVec.at(4)));
 		
 		try{
 			_crossVec->push_back(cross);
@@ -167,7 +167,7 @@ void FileHandle::transformCrossData()
 }
 
 // Brief: output the car information
-vector<Car>* FileHandle::getCarVector()
+vector<Car*>* FileHandle::getCarVector()
 {
 	if(_carVec->size() != 0)
 		return this->_carVec;
@@ -178,7 +178,7 @@ vector<Car>* FileHandle::getCarVector()
 }
 
 // Brief: output the road information
-vector<Road>* FileHandle::getRoadVector()
+vector<Road*>* FileHandle::getRoadVector()
 {
 	if(this->_roadVec->size() != 0)
 		return this->_roadVec;
@@ -189,7 +189,7 @@ vector<Road>* FileHandle::getRoadVector()
 }
 
 // Brief: output the cross information
-vector<Cross>* FileHandle::getCrossVector()
+vector<Cross*>* FileHandle::getCrossVector()
 {
 	if(this->_crossVec->size() != 0)
 		return this->_crossVec;

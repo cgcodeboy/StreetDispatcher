@@ -26,9 +26,8 @@ Car* Carport::getCarToRoad(unsigned int current_time,int road_id)
 {
 	if(_waitCarVec->empty())
 		return nullptr;
-	
 	// get the cars which is planned to start at this time
-	vector<Car*> *currentVec = new vector<Car*>;
+	vector<Car*>* currentVec = new vector<Car*>;
 	for(vector<Car*>::iterator it = _waitCarVec->begin(); it != _waitCarVec->end(); it++)
 	{
 		if((*it)->getPlanTime() <= current_time && (*it)->getNextRoadId(0) == road_id)
@@ -40,7 +39,7 @@ Car* Carport::getCarToRoad(unsigned int current_time,int road_id)
 	
 	//get the car which has the most fastest speed
 	int fastSpeed = 0;
-	vector<Car*>::iterator fastSpeed_it;//this iterator stores car which has the fastest speed
+	vector<Car*>::iterator fastSpeed_it = currentVec->end();//this iterator stores car which has the fastest speed
 	for(vector<Car*>::iterator it = currentVec->begin(); it != currentVec->end(); it++)
 	{
 		if((*it)->getMaxSpeed() > fastSpeed){
@@ -48,10 +47,13 @@ Car* Carport::getCarToRoad(unsigned int current_time,int road_id)
 			fastSpeed = (*it)->getMaxSpeed();
 		}
 	}
-	
-	Car* returnCar = *fastSpeed_it;
-	returnCar->setRealStartTime(current_time);
-	fastSpeed_it = currentVec->erase(fastSpeed_it);
-	return returnCar;
+	if(fastSpeed_it != currentVec->end())
+	{
+		Car* returnCar = *fastSpeed_it;
+		returnCar->setRealStartTime(current_time);
+		fastSpeed_it = currentVec->erase(fastSpeed_it);
+		return returnCar;
+	}
+	return nullptr;
 }
 

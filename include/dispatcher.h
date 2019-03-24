@@ -13,16 +13,16 @@
 
 class Dispatcher{
 private:
-	vector<Car> *_carVec;
-	vector<Road> *_roadVec;
-	vector<Cross> *_crossVec;
+	vector<Car*> *_carVec;
+	vector<Road*> *_roadVec;
+	vector<Cross*> *_crossVec;
 	
 	void sortSceneRelation();
 	
 public:
 	Dispatcher(){}
 	
-	void setStreetScene(vector<Car>* car_vector, vector<Road>* road_vector, vector<Cross>* cross_vector);
+	void setStreetScene(vector<Car*>* car_vector, vector<Road*>* road_vector, vector<Cross*>* cross_vector);
 	
 	void trainScene();
 	

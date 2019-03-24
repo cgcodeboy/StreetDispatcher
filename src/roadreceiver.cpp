@@ -4,9 +4,9 @@
 RoadReceiver::RoadReceiver(Road* in_road, Cross* out_cross):
 _road(in_road),_cross(out_cross)
 {
-	*_straightCar = nullptr;
-	*_leftCar = nullptr;
-	*_rightCar = nullptr;
+	_straightCar = nullptr;
+	_leftCar = nullptr;
+	_rightCar = nullptr;
 }
 
 bool RoadReceiver::canReceiveCar()
@@ -17,19 +17,19 @@ bool RoadReceiver::canReceiveCar()
 // Brief: this function is used to insert the three car into the road in order
 void RoadReceiver::receiveCar()
 {
-	if(*_straightCar)
+	if(_straightCar && (*_straightCar) != nullptr)
 	{
 		_road->pushCar(*_straightCar,_cross);
 		*_straightCar = nullptr;
 	}
-	if(*_leftCar)
+	if(_leftCar && (*_leftCar) != nullptr)
 	{
 		if(_road->pushCar(*_leftCar,_cross))
 		{
 			*_leftCar = nullptr;
 		}
 	}
-	if(*_rightCar)
+	if(_rightCar && (*_rightCar) != nullptr)
 	{
 		if(_road->pushCar(*_rightCar,_cross))
 		{

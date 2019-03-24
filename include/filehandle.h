@@ -26,9 +26,9 @@ private:
 	string _crossFilePath;
 	string _answerFilePath;
 	
-	vector<Car> *_carVec;
-	vector<Road> *_roadVec;
-	vector<Cross> *_crossVec;
+	vector<Car*> *_carVec;
+	vector<Road*> *_roadVec;
+	vector<Cross*> *_crossVec;
 	
 	void transformCarData();
 	void transformRoadData();
@@ -42,9 +42,9 @@ public:
 	void transformData();
 	void writeAnswer();
 	
-	vector<Car>* getCarVector();
-	vector<Road>* getRoadVector();
-	vector<Cross>* getCrossVector();
+	vector<Car*>* getCarVector();
+	vector<Road*>* getRoadVector();
+	vector<Cross*>* getCrossVector();
 };
 
 #endif

@@ -2,7 +2,7 @@
 
 CrossThread::CrossThread(Cross* cross):_cross(cross)
 {
-
+	//cout<<_cross->getId();
 }
 	
 int CrossThread::run(void* thread_context)
@@ -20,6 +20,8 @@ int CrossThread::run(void* thread_context)
 void* CrossThread::startThreadFunction(void* thread)
 {
 	CrossThread* thisThread = (CrossThread*)thread;
+	//cout<<thisThread->_threadId;
+	//cout<<"ya"<<thisThread->_cross->getId();
 	thisThread->_cross->move(thisThread->_time);
 	return 0;
 }
